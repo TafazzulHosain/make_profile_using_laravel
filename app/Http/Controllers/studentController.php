@@ -52,7 +52,7 @@ class studentController extends Controller
             'email'=>'required|email',
             'password'=>'required|min:5|max:12'
         ]);
-        ///check email and password
+        ///check email and password and create session
         $info = Login::where('email','=',$req->email)->first();
         if(!$info)
         {
@@ -85,13 +85,11 @@ class studentController extends Controller
 
 
 
-    
-
     ///student information Section
 
     function registration()
     {
-        $data = ['loggedinfo'=>Login::where('id','=',session('logged'))->first()];  ///Problem 
+        //$data = ['loggedinfo'=>Login::where('id','=',session('logged'))->first()];  ///Problem 
         return view('student.registration');
 
     }
@@ -104,7 +102,7 @@ class studentController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:students',
             'fname' => 'required',
-            'phone_number'=>'required',
+            'phone_number'=>'required|unique:students',
             'birth_date'=>'required',
             'address'=>'required',
             'university' =>'required',
@@ -152,7 +150,7 @@ class studentController extends Controller
     public function showProfile($id)
     {
         $data = Student::find($id);
-        // $data = Student::where('id','=',$id->first());
+         //$data = Student::where('id','=',$id->first());
         return view('student.showProfile')->with('student',$data);
     }
 
@@ -166,14 +164,15 @@ class studentController extends Controller
     public function UpdateInfo(Request $req)
     {
         
-        
-
         $data = Student::find($req->id);
         //Registration  form validation
         $req->validate([
             'name' => 'required',
             'email' => 'required|email|unique:students',
             'fname' => 'required',
+            'phone_number'=>'required|unique:students',
+            'birth_date'=>'required',
+            'address'=>'required',
             'university' =>'required',
             'department' => 'required',
             'skills' => 'required|min:10|max:1000'
@@ -182,6 +181,9 @@ class studentController extends Controller
         $data->name = $req->name;
         $data->email = $req->email;
         $data->fname = $req->fname;
+        $data->phone_number = $req->phone_number;
+        $data->birth_date = $req->birth_date;
+        $data->address = $req->address;
         $data->university = $req->university;
         $data->department = $req->department;
         $data->skills = $req->skills;

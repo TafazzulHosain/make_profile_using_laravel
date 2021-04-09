@@ -80,8 +80,8 @@
 
                 </div>
                 <div class="logout float-right"> 
-                    <p>Logout from profile pages</p> 
-                    <a class='float-right btn btn-info' role='button' href='logout.php?logout'>Logout</a>
+                    <p>Logout from profile</p> 
+                    <a class='float-right btn btn-info' role='button' href="{{ route('auth.logout') }}">Logout</a>
                 </div>
             </div>
         </div>
